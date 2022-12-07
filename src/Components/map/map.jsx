@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../Navbar 1/Navbar1'
 import { MapContainer, TileLayer, useMap, Marker, Popup  } from 'react-leaflet'
+import { getParkings } from '../../redux/Parkings/parkings.function'
+import { useSelector } from 'react-redux'
 
 
 
@@ -17,8 +19,13 @@ const Map = (prop) => {
   }
   )
 
+  const {parkings} = useSelector((state) => state.parkings);
   
   useEffect(()=>{
+    if(parkings <= 0){
+      getParkings()
+    }
+
     navigator.geolocation.getCurrentPosition(
       function(position){
         console.log(position);
@@ -33,7 +40,7 @@ const Map = (prop) => {
 const pos = [40.458384213400386, -3.694974886507998]
 const upgrade = [40.45845766268682, -3.694942702058932]
 
-const garages={
+/* const garages={
   garage1: [40.457976025041255, -3.697571266878767],
   garage2: [40.45493739151863, -3.6924107976966885],
   garage3: [40.45761825541889, -3.6816575105324683],
@@ -41,7 +48,7 @@ const garages={
   garage5 : [40.45398964572669, -3.693428466473853],
   garage6 : [40.44911670297784, -3.6784043507762414]
 }
-
+ */
     return (
     <>
     <Navbar styles='navbar_input--hidden'/>
@@ -55,7 +62,7 @@ const garages={
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
     
-    <Marker  position={upgrade}  icon={IconLocation}  >
+    {/* <Marker  position={upgrade}  icon={IconLocation}  >
     <Popup>
         Academia Upgrade
     </Popup>
@@ -95,7 +102,15 @@ const garages={
     5€
     Calle de la Infanta Mercedes, 70, 28020-Madrid
     </Popup>
-    </Marker>
+    </Marker> */}
+
+    {parkings && parkings.map((parking) => (
+      <Marker position={[parking.longitude, parking.latitude]} icon={IconLocation}>
+      <Popup>
+        {parking.adress}
+      </Popup>
+      </Marker>
+    ))}
   </MapContainer>,
   </div>)}
 

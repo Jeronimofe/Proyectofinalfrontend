@@ -9,6 +9,7 @@ import UserProfile from "./Pages/UseProfile/UserProfile";
 import { checkSession } from "./redux/auth/auth.funtion";
 import { useDispatch } from "react-redux";
 import "./App.scss";
+import AuthRoute from "./Components/AuthRoute/authroute";
 
 function App() {
     const dispatch = useDispatch([]);
@@ -24,10 +25,10 @@ function App() {
                 <Route path="" element={<Home />} />
                 <Route path="/map" element={<Map />} />
                 <Route path="/users/login" element={<Login />} />
-                <Route path="/users/createbooking" element={<FormRent />} />
-                <Route path="login" element={<Login />} />
+                <Route path="/users/createbooking" element={<AuthRoute component= {<FormRent />}/>}/>
+                {/* <Route path="login" element={<Login />} /> */}
                 <Route path="/users/register" element={<Register />} />
-                <Route path="/user/userProfile" element={<UserProfile />} />
+                <Route path="/user/userProfile" element={<AuthRoute component= {<UserProfile />}/>}/>
             </Routes>
         </div>
     );
